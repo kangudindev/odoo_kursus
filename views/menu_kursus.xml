@@ -1,0 +1,35 @@
+<data>
+        <!-- Menu Utama -->
+    <menuitem
+        id="kursus_menu_root"
+        name="KURSUS"
+        sequence="10"
+        web_icon="kursus,static/description/icon.png"/>
+
+        <!-- Sub Menu Level 1 -->
+    <menuitem
+        id="training_menu_categ"
+        name="Training"
+        parent="kursus_menu_root"
+        sequence="10"/>
+
+    <menuitem
+        id="peserta_menu_categ"
+        name="Peserta"
+        parent="kursus_menu_root"
+        sequence="20"/>
+
+    <menuitem
+        id="pengaturan_menu_categ"
+        name="Pengaturan"
+        parent="kursus_menu_root"
+        sequence="30"/>
+
+    <!-- Sub Menu Level 2 -->
+    <menuitem
+        id="wilayah_menu_categ"
+        name="Wilayah"
+        parent="pengaturan_menu_categ"
+        sequence="10"/>
+
+</data>

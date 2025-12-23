@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="cdn_daftar_hadir_list" model="ir.ui.view">
+            <field name="name">cdn.daftar_hadir.list</field>
+            <field name="model">cdn.daftar_hadir</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="tanggal"/>
+                    <field name="kursus_id"/>
+                    <field name="sesi_kursus_id"/>
+                     <field name="instruktur_id"></field>
+                    <field name="total_peserta"/>
+                </list>
+            </field>
+        </record>
+
+
+        <!-- cdn.daftar_hadir calendar view -->
+        <record id="cdn_daftar_hadir_view_calendar" model="ir.ui.view">
+            <field name="name">cdn.daftar_hadir.view.calendar</field>
+            <field name="model">cdn.daftar_hadir</field>
+            <field name="arch" type="xml">
+                <calendar string="Daftar Hadir" date_start="tanggal" color="state">
+                    <field name="tanggal"/>
+                    <field name="kursus_id"/>
+                    <field name="sesi_kursus_id"/>
+                </calendar>
+            </field>
+        </record>
+
+
+        <record id="cdn_daftar_hadir_form" model="ir.ui.view">
+            <field name="name">cdn.daftar_hadir.form</field>
+            <field name="model">cdn.daftar_hadir</field>
+            <field name="arch" type="xml">
+                <form string="Daftar Hadir">
+                    <header>
+                        <button name="action_confirm" string="Konfirmasi" type="object" class="oe_highlight" invisible="not id or state == 'confirm'"/>
+                        <button name="action_reset" string="Reset" type="object" invisible="not id or state != 'confirm'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                        <field name="tanggal" string="Tanggal"/>
+                        <group col="3">
+                            <group>
+                                <field name="kursus_id" readonly="state == 'confirm'"/>
+                                <field name="sesi_kursus_id" domain="[('kursus_id', '=', kursus_id)]" readonly="state == 'confirm'"/>
+                                <field name="total_peserta" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="instruktur_id"></field>
+                                <field name="no_hp"></field>
+                                <field name="email"></field>
+                            </group>
+                            <group>
+                                <field name="jml_hadir"/>
+                                <field name="jml_sakit"/>
+                                <field name="jml_izin"/>
+                                <field name="jml_alpha"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Peserta Kursus" name="peserta_kursus">
+                                <field name="daftar_hadir_ids" invisible="not sesi_kursus_id">
+                                    <list editable="bottom" create="0">
+                                        <field name="peserta_id" readonly="1" force_save="1"/>
+                                        <field name="jenis_kelamin"/>
+                                        <field name="no_hp"/>
+                                        <field name="presensi"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cdn_daftar_hadir_action" model="ir.actions.act_window">
+            <field name="name">Daftar Hadir</field>
+            <field name="res_model">cdn.daftar_hadir</field>
+            <field name="view_mode">list,form,calendar</field>
+        </record>
+
+        <menuitem id="daftar_hadir_menu_act" name="Daftar Hadir" parent="peserta_menu_categ" action="cdn_daftar_hadir_action" sequence="11"/>
+    </data>
+</odoo>

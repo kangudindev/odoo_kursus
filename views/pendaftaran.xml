@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="cdn_pendaftaran_list" model="ir.ui.view">
+            <field name="name">cdn.pendaftaran.form</field>
+            <field name="model">cdn.pendaftaran</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="tanggal"/>
+                    <field name="pendaftar_id"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="no_hp"/>
+                    <field name="kursus_id"/>
+                    <field name="state" string="Status Pendaftaran" widget="badge"
+                        decoration-muted="state == 'draft'"
+                        decoration-success="state == 'confirm'" />
+                    <field name="status_pembayaran" widget="badge"
+                        decoration-info="status_pembayaran == 'draft'"
+                        decoration-danger="status_pembayaran == 'not_paid'"
+                        decoration-warning="status_pembayaran in ('partial', 'in_payment')"
+                        decoration-success="status_pembayaran in ('paid', 'reversed')" />
+                    
+                </list>
+            </field>
+        </record>
+
+        <record id="cdn_pendaftaran_form" model="ir.ui.view">
+            <field name="name">cdn.pendaftaran.form</field>
+            <field name="model">cdn.pendaftaran</field>
+            <field name="arch" type="xml">
+                <form string="Pendaftaran">
+                    <header>
+                        <button name="action_confirm" string="Konfirmasi" type="object" class="oe_highlight" invisible="not id or state == 'confirm'"/>
+                        <button name="action_reset" string="Reset" type="object" invisible="not id or state != 'confirm'"/>
+                        <button name="action_create_invoice" string="Buat Invoice" type="object" class="oe_link" invisible="state != 'confirm' or invoice_id"/>
+                        
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                        <field name="status_pembayaran" invisible="1"/>
+                        <widget name="web_ribbon" bg_color="bg-info" text="Draft" invisible="status_pembayaran != 'draft'" />
+                        <widget name="web_ribbon" bg_color="bg-danger" text="Belum Lunas" invisible="status_pembayaran != 'not_paid'" />
+                        <widget name="web_ribbon" bg_color="bg-warning" text="Terbayar Sebagian" invisible="status_pembayaran not in ('partial', 'in_payment')" />
+                        <widget name="web_ribbon" bg_color="bg-success" text="Lunas" invisible="status_pembayaran not in ('paid', 'reversed')" />
+                        <group string="Informasi Pendaftaran">
+                            <div class="oe_title">
+                                <h3>
+                                    <label for="name" string="No Pendaftaran"/>
+                                </h3>
+                                <h1>
+                                    <field name="name" class="mb-0 mt-1"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="tanggal"/>
+                                    <field name="pendaftar_id" readonly="state == 'confirm'"/>
+                                    <field name="jenis_kelamin"/>
+                                    <field name="no_hp"/>
+                                </group>
+                                <group>
+                                    <field name="kursus_id" readonly="state == 'confirm'"/>
+                                    <field name="harga_kursus" string="Harga Kursus" />
+                                    <field name="invoice_id"/>
+                                </group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cdn_pendaftaran_action" model="ir.actions.act_window">
+            <field name="name">Pendaftaran</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cdn.pendaftaran</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="pendaftaran_menu_act" name="Pendaftaran" parent="peserta_menu_categ" action="cdn_pendaftaran_action" sequence="10"/>
+    </data>
+</odoo>

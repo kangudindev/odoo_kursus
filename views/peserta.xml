@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- cdn.peserta list view -->
+        <record id="cdn_peserta_view_list"
+                model="ir.ui.view">
+            <field name="name">Peserta</field>
+            <field name="model">cdn.peserta</field>
+            <field name="arch"
+                   type="xml">
+                <list>
+                    <field name="name" string="Nama Siswa"/>
+                    <field name="jenis_kelamin" />
+                    <field name="street" string="Alamat"/>
+                    <field name="mobile" string="No HP"/>
+                    <field name="email" />
+                </list>
+            </field>
+        </record>
+
+        <!-- cdn.peserta form view -->
+        <record id="cdn_peserta_view_form"
+                model="ir.ui.view">
+            <field name="name">cdn.peserta.view.form</field>
+            <field name="model">cdn.peserta</field>
+            <field name="arch"
+                   type="xml">
+                <form string="Form Peserta">
+                    <sheet>
+                        <field name="image_1920" widget="image" class="oe_avatar" />
+                        <div class="oe_title">
+                            <h3><label for="no_peserta" string="No Peserta"/></h3>
+                            <h1><field name="no_peserta"/></h1>
+                        </div>
+                        <group name="identitas_peserta" string="Identitas Siswa">
+                            <group>
+                                <!-- <field name="name" /> -->
+                                <field name="name" string="Nama Siswa" />
+                                <field name="jenis_kelamin" required="1"/>
+                                <field name="email" />
+                            </group>
+                            <group>
+                                <field name="tmp_lahir" />
+                                <field name="tgl_lahir" />
+                                <field name="mobile" string="No HP" required="1"/>
+                            </group>
+                        </group>
+
+                        <group name="tempat_tinggal" string="Tempat Tinggal Siswa">
+                            <group colspan="4">
+                                <field name="street" string="Alamat"/>
+                            </group>
+                            <group>
+                                <field name="provinsi_id"/>
+                                <field name="kota_id" domain="[('provinsi_id','=',provinsi_id)]"/>
+                            </group>
+                            <group>
+                                <field name="kecamatan_id" domain="[('kota_id','=',kota_id)]"/>
+                                <field name="desa_id" domain="[('kecamatan_id','=',kecamatan_id)]"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="pendidikan"/>
+                                <field name="is_menikah"/>
+                            </group>
+                            <group>
+                                <field name="pekerjaan"/>
+                            </group>
+                        </group>
+                        <group name="pasangan"  string="Identitas Pasangan" invisible="is_menikah == False">
+                            <group>
+                                <field name="nama_pasangan"/>
+                            </group>
+                            <group>
+                                <field name="hp_pasangan"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        	<!-- Action untuk peserta laki-laki -->
+        <record id="peserta_action_laki" model="ir.actions.act_window">
+            <field name="name">Peserta Laki-laki</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cdn.peserta</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('jenis_kelamin','=','l')]</field>
+            <field name="context">{'default_jenis_kelamin':'l'}</field>
+
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+         <!-- More details about what a user can do with this object will be OK --> 
+                
+                </p>
+            </field>
+        </record>
+
+
+        	<!-- Action untuk peserta perempuan -->
+        <record id="peserta_action_perempuan" model="ir.actions.act_window">
+            <field name="name">Peserta Perempuan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cdn.peserta</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('jenis_kelamin','=','p')]</field>
+            <field name="context">{'default_jenis_kelamin':'p'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+            
+                
+                </p>
+            </field>
+        </record>
+
+
+
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <!-- <menuitem id="peserta_menu_act" name="Peserta" parent="peserta_menu_categ" action="cdn_peserta_action" sequence="10"/> -->
+
+        <menuitem id="peserta_laki_menu_act" name="Peserta Laki-laki" parent="peserta_menu_categ" action="peserta_action_laki" sequence="20"/>
+        <menuitem id="peserta_perempuan_menu_act" name="Peserta Perempuan" parent="peserta_menu_categ" action="peserta_action_perempuan" sequence="21"/>
+        
+
+    </data>
+</odoo>
