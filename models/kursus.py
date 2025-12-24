@@ -10,7 +10,7 @@ class Kursus (models.Model):
     description = fields.Text(string='Deskripsi')
     user_id = fields.Many2one(comodel_name='res.users', string='Penanggung Jawab')
     session_line = fields.One2many(comodel_name='cdn.sesi.kursus', inverse_name='kursus_id', string='Sesi')
-    produk_ids = fields.Many2many(comodel_name='product.product', string='Konsumsi')
+    produk_ids = fields.Many2many(comodel_name='product.product', string='Konsumsi', domain=[('type', 'in', ('consu', 'product'))])
     produk_kursus_id = fields.Many2one(comodel_name='product.product', string='Produk Kursus', domain=[('is_kursus_product', '=', True)])
     biaya_konsumsi = fields.Float(string='Biaya Konsumsi', compute='_compute_biaya_konsumsi')
     harga_kursus = fields.Float(related='produk_kursus_id.lst_price', string='Harga Kursus')
@@ -84,7 +84,9 @@ class SesiKursus(models.Model):
         for record in self:
             record.state = 'done' if record.state == 'confirm' else record.state
 
-        
+    def action_print_session(self):
+        return self.env.ref('kursus.report_sesi_kursus_pdf_action').report_action(self)   
+
 
 
 

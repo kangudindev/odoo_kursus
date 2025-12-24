@@ -33,7 +33,7 @@
                             <field name="user_id" widget="many2one_tags"/>
                         </group>
                         <group>
-                            <field name="produk_kursus_id"/>
+                            <field name="produk_kursus_id" />
                             <field name="harga_kursus" />
                             <field name="biaya_konsumsi" />
                         </group>

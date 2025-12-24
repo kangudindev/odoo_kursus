@@ -1,0 +1,29 @@
+<odoo>
+
+
+    <!-- Report Sesi Kursus PDF -->
+    <record id="report_sesi_kursus_pdf_action" model="ir.actions.report">
+        <field name="name">Sesi Kursus (PDF)</field>
+        <field name="model">cdn.sesi_kursus</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_sesi_kursus</field>
+        <field name="report_file">report_sesi_kursus</field>
+        <field name="print_report_name">'Sesi Kursus - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_sesi_kursus"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <!-- Report Sesi Kursus XLS -->
+    <record id="report_sesi_kursus_xls_action" model="ir.actions.report">
+        <field name="name">Sesi Kursus (XLS)</field>
+        <field name="model">cdn.sesi_kursus</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">report_sesi_kursus</field>
+        <field name="report_file">report_sesi_kursus</field>
+        <field name="print_report_name">'Sesi Kursus - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_sesi_kursus"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+
+</odoo>

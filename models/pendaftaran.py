@@ -14,7 +14,8 @@ class Pendaftaran(models.Model):
     # currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
     state = fields.Selection(string='Status', selection=[('draft', 'Draft'), ('confirm', 'Konfirmasi'), ('done', 'Selesai')], default='draft')
     invoice_id = fields.Many2one(comodel_name='account.move', string='No. Tagihan', readonly=True)
-    status_pembayaran = fields.Selection(string='Status Pembayaran', related='invoice_id.status_in_payment', store=True)
+    # status_pembayaran = fields.Selection(string='Status Pembayaran', related='invoice_id.status_in_payment', store=True)
+    status_pembayaran = fields.Selection(string='Status Pembayaran', related='invoice_id.payment_state', store=True)
     
 
     @api.model
